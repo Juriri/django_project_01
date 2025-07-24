@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>북마크 목록</title>
+</head>
+<body>
+    <h1>📌 북마크 목록</h1>
+    <ul>
+        {% for bm in bookmarks %}
+            <li><a href="{{ bm.url }}" target="_blank">{{ bm.title }}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
