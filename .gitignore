@@ -1,4 +1,6 @@
-/.gitignore
+.gitignore
+.idea/
+
 # Python
 __pycache__/
 *.py[cod]
