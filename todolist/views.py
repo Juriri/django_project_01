@@ -1,11 +1,24 @@
-from django.shortcuts import get_object_or_404
+from django.http import Http404
+from django.shortcuts import render
 from .models import Todo
-from django.template.response import TemplateResponse
 
 def todo_list(request):
-    todos = Todo.objects.all()
-    return TemplateResponse(request, 'todolist/todo_list.jinja.html', {'todos': todos})
+    todo_list = Todo.objects.all().values_list('id', 'title')
+    result = [{'id': todo[0], 'title': todo[1]} for i, todo in enumerate(todo_list)]
+
+    return render(request, 'todolist/todo_list.html', {'data': result})
+
 
 def todo_info(request, todo_id):
-    todo = get_object_or_404(Todo, id=todo_id)
-    return TemplateResponse(request, 'todolist/todo_info.jinja.html', {'todo': todo})
+    try:
+        todo = Todo.objects.get(id=todo_id)
+        info = {
+            'title': todo.title,
+            'description': todo.description,
+            'start_date': todo.start_date,
+            'end_date': todo.end_date,
+            'is_completed': todo.is_completed,
+        }
+        return render(request, 'todolist/todo_info.html', {'data': info})
+    except Todo.DoesNotExist:
+        raise Http404("Todo does not exist")

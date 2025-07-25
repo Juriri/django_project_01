@@ -55,18 +55,6 @@ ROOT_URLCONF = 'config.urls'
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.jinja2.Jinja2',
-        #'DIRS': [BASE_DIR / 'templates'],  # Jinja 템플릿 위치
-         'DIRS': [
-                    os.path.join(BASE_DIR, 'bookmark', 'templates'),
-                    os.path.join(BASE_DIR, 'todolist', 'templates'),
-                ],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'environment': 'config.jinja2.environment',
-        },
-    },
-    {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
