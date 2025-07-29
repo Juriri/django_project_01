@@ -1,55 +1,170 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Info</title>
+    <title>{{ todo.title }} - 할 일 정보</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --main-color: #ff9aa2;
+            --accent-color: #fcd5ce;
+            --text-color: #333;
+            --bg-color: #fff0f5;
+            --white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             margin: 0;
-            padding: 20px;
+            padding: 40px;
         }
+
         .container {
-            max-width: 600px;
+            max-width: 700px;
             margin: auto;
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: var(--white);
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
         }
+
         h1 {
+            color: var(--main-color);
             text-align: center;
-            color: #333;
+            margin-bottom: 30px;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
+
+        .info-row {
+            display: flex;
+            margin-bottom: 20px;
         }
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
+
+        .info-label {
+            width: 120px;
+            font-weight: bold;
+            color: #666;
         }
-        th {
-            background: #f0f0f0;
+
+        .info-value {
+            flex: 1;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            background-color: #eee;
+        }
+
+        .status.done {
+            background-color: #c8e6c9;
+            color: #2e7d32;
+        }
+
+        .status.pending {
+            background-color: #ffe0b2;
+            color: #ef6c00;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+
+        .btn {
+            text-decoration: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-weight: 600;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-btn {
+            background-color: #bbb;
+        }
+
+        .back-btn:hover {
+            background-color: #999;
+        }
+
+        .edit-btn {
+            background-color: #ffb347;
+        }
+
+        .edit-btn:hover {
+            background-color: #ff9800;
+        }
+
+        .delete-btn {
+            background-color: #ef5350;
+        }
+
+        .delete-btn:hover {
+            background-color: #d32f2f;
+        }
+
+        form {
+            display: inline;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>{{ data.title }}</h1>
-        <table>
-            {% for key, value in data.items %}
-                {% if key != 'title' %}
-                    <tr>
-                        <th>{{ key }}</th>
-                        <td>{{ value }}</td>
-                    </tr>
+        <h1>{{ todo.title }}</h1>
+
+        <div class="info-row">
+            <div class="info-label">설명</div>
+            <div class="info-value">{{ todo.description }}</div>
+        </div>
+
+        <div class="info-row">
+            <div class="info-label">시작일</div>
+            <div class="info-value">{{ todo.start_date }}</div>
+        </div>
+
+        <div class="info-row">
+            <div class="info-label">종료일</div>
+            <div class="info-value">{{ todo.end_date }}</div>
+        </div>
+
+        <div class="info-row">
+            <div class="info-label">상태</div>
+            <div class="info-value">
+                {% if todo.is_completed %}
+                    <span class="status done">완료</span>
+                {% else %}
+                    <span class="status pending">진행 중</span>
                 {% endif %}
-            {% endfor %}
-        </table>
+            </div>
+        </div>
+
+        <div class="info-row">
+            <div class="info-label">생성일</div>
+            <div class="info-value">{{ todo.created_at|date:"Y-m-d H:i" }}</div>
+        </div>
+
+        <div class="info-row">
+            <div class="info-label">수정일</div>
+            <div class="info-value">{{ todo.modified_at|date:"Y-m-d H:i" }}</div>
+        </div>
+
+        <div class="btn-group">
+            <a href="{% url 'todo_list' %}" class="btn back-btn">← 목록으로</a>
+            <a href="{% url 'todo_update' todo.id %}" class="btn edit-btn">✏️ 수정</a>
+            <form action="{% url 'todo_delete' todo.id %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn delete-btn">🗑️ 삭제</button>
+            </form>
+        </div>
     </div>
 </body>
 </html>

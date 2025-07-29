@@ -15,7 +15,7 @@ def todo_list(request):
     if q:
         todo_all = todo_all.filter(Q(title__icontains=q) | Q(description__icontains=q))
 
-    paginator = Paginator(todo_all, 10)
+    paginator = Paginator(todo_all, 3)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
@@ -37,19 +37,21 @@ def todo_create(request):
         todo = form.save(commit=False)
         todo.user = request.user
         todo.save()
-        return redirect("todolist/todo_info", todo_id=todo.id)
+        return redirect("todo_info", todo_id=todo.id)
     return render(request, "todolist/todo_create.html", {"form": form})
-
 
 @login_required()
 def todo_update(request, todo_id):
     todo = get_object_or_404(Todo, id=todo_id, user=request.user)
-    form = TodoUpdateForm(request.Post or None, instance=todo)
-    if request.method == "POST" and form.is_valid():
+    form = TodoUpdateForm(request.POST or None, instance=todo)
+    if form.is_valid():
         form.save()
-        return redirect("todo_info", todo_id=todo_id)
-    return render(request, "todolist/todo_update.html", {"form": form})
-
+        from django.urls import reverse
+        return redirect(reverse('todo_info', kwargs={'todo_id': todo.pk}))
+    context = {
+        'form': form
+    }
+    return render(request, 'todolist/todo_update.html', context)
 
 @login_required()
 def todo_delete(request, todo_id):

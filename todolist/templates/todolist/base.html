@@ -1,38 +1,38 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title>{% block title %}ToDo App{% endblock %}</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/modern-css-reset/dist/reset.min.css">
-    <style>
-        body { font-family: sans-serif; padding: 2rem; }
-        header { margin-bottom: 2rem; }
-        nav a { margin-right: 1rem; }
-        .container { max-width: 800px; margin: auto; }
-        form input, form textarea, form select {
-            width: 100%; padding: 0.5rem; margin-bottom: 1rem;
-        }
-        button { padding: 0.5rem 1rem; }
-    </style>
+  <meta charset="UTF-8">
+  <title>{% block title %}ToDo App{% endblock %}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1><a href="{% url 'todo_list' %}">📝 ToDo App</a></h1>
-            {% if user.is_authenticated %}
-                <p>안녕하세요, {{ user.username }}님! |
-                   <a href="{% url 'logout' %}">로그아웃</a></p>
-            {% else %}
-                <a href="{% url 'login' %}">로그인</a> |
-                <a href="{% url 'signup' %}">회원가입</a>
-            {% endif %}
-            <nav>
-                <a href="{% url 'todo_create' %}">할 일 추가</a>
-            </nav>
-        </header>
+  <div class="container">
+    <header>
+      <h1><a href="{% url 'todo_list' %}" style="text-decoration: none; color: var(--main-dark);">📝 ToDo App</a></h1>
+      <div class="auth">
+        {% if user.is_authenticated %}
+          안녕하세요, {{ user.username }}님!
+          <form action="{% url 'logout' %}" method="POST" style="display: inline;">
+            {% csrf_token %}
+            <button>로그아웃</button>
+          </form>
+        {% else %}
+          <a href="{% url 'login' %}">로그인</a>
+          <a href="{% url 'signup' %}">회원가입</a>
+        {% endif %}
+      </div>
+      <nav>
+        <a href="{% url 'todo_list' %}">📋 전체 목록</a>
+        {% if user.is_authenticated %}
+          <a href="{% url 'todo_create' %}">➕ 할 일 추가</a>
+        {% endif %}
+      </nav>
+    </header>
 
-        {% block content %}
-        {% endblock %}
-    </div>
+    {% block content %}
+    {% endblock %}
+  </div>
 </body>
 </html>
