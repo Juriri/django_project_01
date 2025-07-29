@@ -3,8 +3,8 @@ from django.shortcuts import render
 from .models import Todo
 
 def todo_list(request):
-    todo_list = Todo.objects.all().values_list('id', 'title')
-    result = [{'id': todo[0], 'title': todo[1]} for i, todo in enumerate(todo_list)]
+    todo_all = Todo.objects.all().values_list('id', 'title')
+    result = [{'id': todo[0], 'title': todo[1]} for i, todo in enumerate(todo_all)]
 
     return render(request, 'todolist/todo_list.html', {'data': result})
 
