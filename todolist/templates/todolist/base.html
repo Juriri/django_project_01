@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}ToDo App{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/modern-css-reset/dist/reset.min.css">
+    <style>
+        body { font-family: sans-serif; padding: 2rem; }
+        header { margin-bottom: 2rem; }
+        nav a { margin-right: 1rem; }
+        .container { max-width: 800px; margin: auto; }
+        form input, form textarea, form select {
+            width: 100%; padding: 0.5rem; margin-bottom: 1rem;
+        }
+        button { padding: 0.5rem 1rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><a href="{% url 'todo_list' %}">📝 ToDo App</a></h1>
+            {% if user.is_authenticated %}
+                <p>안녕하세요, {{ user.username }}님! |
+                   <a href="{% url 'logout' %}">로그아웃</a></p>
+            {% else %}
+                <a href="{% url 'login' %}">로그인</a> |
+                <a href="{% url 'signup' %}">회원가입</a>
+            {% endif %}
+            <nav>
+                <a href="{% url 'todo_create' %}">할 일 추가</a>
+            </nav>
+        </header>
+
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,13 @@
+{% extends './base.html' %}
+
+{% block title %}할 일 수정{% endblock %}
+
+{% block content %}
+<h2>할 일 수정</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">수정</button>
+</form>
+<a href="{% url 'todo_info' todo.id %}">← 상세 보기</a>
+{% endblock %}
