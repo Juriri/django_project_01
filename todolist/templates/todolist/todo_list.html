@@ -1,73 +1,49 @@
 {% extends "./base.html" %}
-
 {% block title %}ToDo 목록{% endblock %}
 
 {% block content %}
-    <h2>나의 ToDo 목록</h2>
+<h2>나의 ToDo 목록</h2>
 
-    {% if page_obj.has_other_pages %}
-        <div class="pagination">
-            {% if page_obj.has_previous %}
-                <a href="?page={{ page_obj.previous_page_number }}{% if q %}&q={{ q }}{% endif %}">이전</a>
-            {% endif %}
+<form method="get" style="margin-bottom: 1rem;">
+    <input type="text" name="q" value="{{ q }}" placeholder="검색어 입력" />
+    <button type="submit">검색</button>
+</form>
 
-            {% for num in page_obj.paginator.page_range %}
-                {% if page_obj.number == num %}
-                    <span class="current">{{ num }}</span>
-                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                    <a href="?page={{ num }}{% if q %}&q={{ q }}{% endif %}">{{ num }}</a>
-                {% endif %}
-            {% endfor %}
-
-            {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}{% if q %}&q={{ q }}{% endif %}">다음</a>
-            {% endif %}
-        </div>
+{% if page_obj.has_other_pages %}
+<div class="pagination">
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}{% if q %}&q={{ q }}{% endif %}">이전</a>
     {% endif %}
 
-    <ul style="list-style: none; padding: 0;">
-        {% for todo in page_obj %}
-            <li style="background: #f9f9f9; padding: 1rem; margin-bottom: 1rem; border-radius: 6px;">
-                <a href="{% url 'todo_info' todo.id %}" style="font-size: 1.2rem; font-weight: bold; color: #3f51b5; text-decoration: none;">
-                    {{ todo.title }}
-                </a>
-                <div style="margin-top: 0.5rem;">
-                    완료 여부: {{ todo.is_completed|yesno:"완료,미완료" }}<br>
-                    📅 시작일: {{ todo.start_date|date:"Y-m-d" }}<br>
-                    ⏰ 마감일: {{ todo.end_date|date:"Y-m-d" }}
-                </div>
-            </li>
-        {% empty %}
-            <li>할 일이 없습니다.</li>
-        {% endfor %}
-    </ul>
+    {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+            <span class="current">{{ num }}</span>
+        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+            <a href="?page={{ num }}{% if q %}&q={{ q }}{% endif %}">{{ num }}</a>
+        {% endif %}
+    {% endfor %}
 
-    <style>
-        .pagination {
-            text-align: center;
-            margin: 2rem 0;
-        }
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% if q %}&q={{ q }}{% endif %}">다음</a>
+    {% endif %}
+</div>
+{% endif %}
 
-        .pagination a, .pagination span.current {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            margin: 0 0.2rem;
-            border-radius: 5px;
-            text-decoration: none;
-            color: #3f51b5;
-            border: 1px solid #ddd;
-            transition: background 0.3s;
-        }
+<ul style="list-style: none; padding: 0;">
+    {% for todo in page_obj %}
+        <li style="background: #f9f9f9; padding: 1rem; margin-bottom: 1rem; border-radius: 6px;">
+            <a href="{% url 'cbv_todo_info' todo.id %}" style="font-size: 1.2rem; font-weight: bold; color: #3f51b5; text-decoration: none;">
+                {{ todo.title }}
+            </a>
+            <div style="margin-top: 0.5rem;">
+                완료 여부: {{ todo.is_completed|yesno:"완료,미완료" }}<br>
+                📅 시작일: {{ todo.start_date|date:"Y-m-d" }}<br>
+                ⏰ 마감일: {{ todo.end_date|date:"Y-m-d" }}
+            </div>
+        </li>
+    {% empty %}
+        <li>할 일이 없습니다.</li>
+    {% endfor %}
+</ul>
 
-        .pagination a:hover {
-            background: #e0e7ff;
-        }
-
-        .pagination span.current {
-            background: #3f51b5;
-            color: white;
-            font-weight: bold;
-            border: 1px solid #3f51b5;
-        }
-    </style>
 {% endblock %}
