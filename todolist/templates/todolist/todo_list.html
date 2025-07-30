@@ -5,6 +5,26 @@
 {% block content %}
     <h2>나의 ToDo 목록</h2>
 
+    <!-- 🔍 검색 폼 -->
+    <form method="GET" action="" style="margin-bottom: 1.5rem;">
+        <input type="text" name="q" placeholder="할 일 검색..." value="{{ q }}" style="
+            width: 70%;
+            padding: 0.5rem;
+            font-size: 1rem;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        ">
+        <button type="submit" style="
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            background-color: #3f51b5;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        ">검색</button>
+    </form>
+
     {% if page_obj.has_other_pages %}
         <div class="pagination">
             {% if page_obj.has_previous %}
