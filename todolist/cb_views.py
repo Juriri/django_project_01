@@ -1,3 +1,4 @@
+from django.http import Http404
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
@@ -27,10 +28,17 @@ class TodoListView(LoginRequiredMixin, ListView):
 class TodoDetailView(LoginRequiredMixin, DetailView):
     model = Todo
     template_name = 'todolist/todo_info.html'
-    context_object_name = 'todo'
 
-    def get_queryset(self):
-        return Todo.objects.filter(user=self.request.user)
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+
+        if obj.user != self.request.user and not self.request.user.is_superuser:
+            raise Http404("해당 To Do를 조회할 권한이 없습니다.")
+        return obj
+
+    def get_context_data(self, **kwargs):
+        context = {'todo': self.object.__dict__}
+        return context
 
 
 class TodoCreateView(LoginRequiredMixin, CreateView):
@@ -43,25 +51,33 @@ class TodoCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy('todo_info', kwargs={'todo_id': self.object.id})
+        return reverse_lazy('cbv_todo_info', kwargs={'todo_id': self.object.id})
 
 
 class TodoUpdateView(LoginRequiredMixin, UpdateView):
     model = Todo
-    form_class = TodoUpdateForm
+    fields = ['title', 'description', 'start_date', 'end_date', 'is_completed', 'id']
     template_name = 'todolist/todo_update.html'
 
-    def get_queryset(self):
-        return Todo.objects.filter(user=self.request.user)
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+
+        if obj.user != self.request.user and not self.request.user.is_superuser:
+            raise Http404("해당 To Do를 수정할 권한이 없습니다.")
+        return obj
 
     def get_success_url(self):
-        return reverse_lazy('todo_info', kwargs={'todo_id': self.object.id})
-
+        return reverse_lazy('cbv_todo_info', kwargs={'pk': self.object.id})
 
 class TodoDeleteView(LoginRequiredMixin, DeleteView):
     model = Todo
-    template_name = 'todolist/todo_confirm_delete.html'
-    success_url = reverse_lazy('todo_list')
 
-    def get_queryset(self):
-        return Todo.objects.filter(user=self.request.user)
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+
+        if obj.user != self.request.user and not self.request.user.is_superuser:
+            raise Http404("해당 To Do를 삭제할 권한이 없습니다.")
+        return obj
+
+    def get_success_url(self):
+        return reverse_lazy('cbv_todo_list')
