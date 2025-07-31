@@ -1,100 +1,115 @@
 .todo-detail {
-  background-color: #fffafc;
-  padding: 2rem;
-  border-radius: 20px;
-  box-shadow: 0 8px 20px rgba(255, 182, 193, 0.2);
-  max-width: 700px;
-  margin: 0 auto 2rem;
-  font-family: var(--font-cute), sans-serif;
+    background-color: #fffafc;
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(255, 182, 193, 0.2);
+    max-width: 700px;
+    margin: 0 auto 2rem;
+    font-family: var(--font-cute), sans-serif;
 }
 
 .todo-detail h2 {
-  font-size: 2rem;
-  color: #ec407a;
-  margin-bottom: 1.5rem;
-  text-align: center;
+    font-size: 2rem;
+    color: #ec407a;
+    margin-bottom: 1.5rem;
+    text-align: center;
 }
 
 .todo-info {
-  list-style: none;
-  padding: 0;
-  margin-bottom: 2rem;
+    list-style: none;
+    padding: 0;
+    margin-bottom: 2rem;
 }
 
 .todo-info li {
-  margin-bottom: 1rem;
-  padding: 1rem 1.2rem;
-  background-color: #fff0f5;
-  border-left: 6px solid #fddde6;
-  border-radius: 14px;
-  font-size: 1rem;
-  box-shadow: 0 2px 6px rgba(255, 182, 193, 0.1);
+    margin-bottom: 1rem;
+    padding: 1rem 1.2rem;
+    background-color: #fff0f5;
+    border-left: 6px solid #fddde6;
+    border-radius: 14px;
+    font-size: 1rem;
+    box-shadow: 0 2px 6px rgba(255, 182, 193, 0.1);
 }
 
 .todo-info li strong {
-  color: #ec407a;
+    color: #ec407a;
+}
+
+.thumbnail-img {
+    display: block;
+    margin: 0 auto;
+    max-width: 250px;
+    max-height: 250px;
+    border-radius: 14px;
+    border: 2px solid #f8bbd0;
+    box-shadow: 0 4px 10px rgba(255, 182, 193, 0.2);
+}
+
+.todo-info li.thumbnail-item {
+    text-align: center;
+    padding: 1.2rem;
 }
 
 .button-group {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  margin-bottom: 2rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 2rem;
 }
 
 .button-group form {
-  display: inline;
+    display: inline;
 }
 
 hr {
-  border: none;
-  height: 2px;
-  background-color: #ffe0ec;
-  margin: 2rem 0;
+    border: none;
+    height: 2px;
+    background-color: #ffe0ec;
+    margin: 2rem 0;
 }
 
 .comment-box {
-  list-style: none;
-  padding: 0;
-  margin-bottom: 2rem;
+    list-style: none;
+    padding: 0;
+    margin-bottom: 2rem;
 }
 
 .comment-box li {
-  background-color: #fff0f5;
-  padding: 0.7rem 0.9rem;
-  margin-bottom: 0.6rem;
-  border-radius: 10px;
-  border: 1px solid #f8bbd0;
-  font-size: 0.9rem;
-  line-height: 1.4;
-  box-shadow: 0 1px 4px rgba(236, 64, 122, 0.05);
+    background-color: #fff0f5;
+    padding: 0.7rem 0.9rem;
+    margin-bottom: 0.6rem;
+    border-radius: 10px;
+    border: 1px solid #f8bbd0;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    box-shadow: 0 1px 4px rgba(236, 64, 122, 0.05);
 }
 
 .comment-box li strong {
-  color: #e91e63;
+    color: #e91e63;
 }
 
 .todo-detail h3,
 .todo-detail h4 {
-  color: #f06292;
-  margin-bottom: 0.5rem;
-  font-size: 1.2rem;
+    color: #f06292;
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
 }
 
 textarea {
-  width: 100%;
-  padding: 10px 12px;
-  border-radius: 14px;
-  border: 1px solid #f8bbd0;
-  background-color: #fffafa;
-  resize: vertical;
-  font-family: var(--font-cute), sans-serif;
-  transition: border 0.2s ease;
-  font-size: 0.95rem;
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 14px;
+    border: 1px solid #f8bbd0;
+    background-color: #fffafa;
+    resize: vertical;
+    font-family: var(--font-cute), sans-serif;
+    transition: border 0.2s ease;
+    font-size: 0.95rem;
 }
 
 textarea:focus {
-  outline: none;
-  border-color: #ec407a;
-  box-shadow: 0 0 0 3px rgba(236, 64, 122, 0.1);
+    outline: none;
+    border-color: #ec407a;
+    box-shadow: 0 0 0 3px rgba(236, 64, 122, 0.1);
 }

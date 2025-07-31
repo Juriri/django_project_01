@@ -21,11 +21,14 @@
             {% for todo in page_obj %}
                 <li>
                     <div class="thumbnail-wrapper">
-                        {% if todo.thumbnail %}
+                        {% if todo.is_completed and todo.completed_image %}
+                            <img src="{{ todo.completed_image.url }}" alt="{{ todo.title }} 완료 이미지" class="thumbnail">
+                        {% elif todo.thumbnail %}
                             <img src="{{ todo.thumbnail.url }}" alt="{{ todo.title }} 썸네일" class="thumbnail">
                         {% else %}
                             <img src="{% static 'images/no_image.jpeg' %}" alt="기본 썸네일" class="thumbnail">
                         {% endif %}
+
                         <a href="{% url 'cbv_todo_info' todo.id %}">{{ todo.title }}</a>
                     </div>
                     <div style="margin-top: 0.5rem;">

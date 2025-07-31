@@ -35,7 +35,6 @@ DJANGO_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_summernote',
 ]
 
 MEDIA_URL = 'media/'
@@ -48,7 +47,6 @@ OWN_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
-    'django_extensions',
     'django_summernote',
     'django_cleanup',
 ]

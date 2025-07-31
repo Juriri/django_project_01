@@ -4,18 +4,28 @@
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/pages/todo_info.css' %}">
-    <link rel="stylesheet" href="{% static 'css/pages/todo_list.css' %}">
 {% endblock %}
 
 {% block content %}
     <div class="todo-detail">
         <h2>{{ todo.title }}</h2>
         <ul class="todo-info">
-            <li><strong>내용:</strong> {{ todo.description }}</li>
+            <li class="thumbnail-item">
+                <strong>썸네일:</strong><br>
+                {% if todo.is_completed and todo.completed_image %}
+                    <img src="{{ todo.completed_image.url }}" alt="완료 이미지" class="thumbnail-img">
+                {% elif todo.thumbnail and todo.thumbnail.url != "/media/todo/no_image/no_image.jpeg" %}
+                    <img src="{{ todo.thumbnail.url }}" alt="썸네일 이미지" class="thumbnail-img">
+                {% else %}
+                    <img src="{% static 'images/no_image.jpeg' %}" alt="기본 썸네일" class="thumbnail-img">
+                {% endif %}
+            </li>
+            <li><strong>내용:</strong><br> {{ todo.description|safe }}</li>
             <li><strong>완료 여부:</strong> {{ todo.is_completed|yesno:"완료,미완료" }}</li>
             <li><strong>시작일:</strong> {{ todo.start_date }}</li>
             <li><strong>마감일:</strong> {{ todo.end_date }}</li>
         </ul>
+
 
         <div class="button-group">
             <a href="{% url 'cbv_todo_update' todo.id %}" class="button-link">수정</a>

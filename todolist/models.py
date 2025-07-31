@@ -28,23 +28,30 @@ class Todo(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
-        # 객체가 이미 존재하는 경우 (update)
-        if self.pk:
-            old = Todo.objects.get(pk=self.pk)
-            image_changed = old.completed_image != self.completed_image
-        else:
-            image_changed = False
+        # 기존 객체 불러오기 (update인지 확인)
+        is_update = self.pk is not None
+        old_image_path = None
+
+        if is_update:
+            try:
+                old = Todo.objects.get(pk=self.pk)
+                if (
+                    old.completed_image
+                    and old.completed_image.name != self.completed_image.name
+                ):
+                    old_image_path = old.completed_image.path
+            except Todo.DoesNotExist:
+                pass
 
         # 먼저 기본 저장
         super().save(*args, **kwargs)
 
-        # 조건: 이미지가 존재하고 썸네일이 없거나 이미지가 바뀌었을 경우만 생성
-        if self.completed_image and (not self.thumbnail or image_changed):
+        # 새 이미지가 있거나, 기존 이미지가 바뀌었으면 썸네일 생성
+        if self.completed_image and (not self.thumbnail or old_image_path):
             try:
                 img = Image.open(self.completed_image)
                 img.thumbnail((200, 200))
 
-                # 이미지 경로 처리
                 img_path = Path(self.completed_image.name)
                 stem = img_path.stem
                 suffix = img_path.suffix.lower()
@@ -58,17 +65,14 @@ class Todo(models.Model):
 
                 file_type = ext_map.get(suffix)
                 if not file_type:
-                    return  # 지원하지 않는 포맷이면 종료
+                    return
 
-                # 썸네일 파일명 생성
                 thumb_name = f"{stem}_thumb{suffix}"
 
-                # 메모리에 임시 저장
                 temp_thumb = BytesIO()
                 img.save(temp_thumb, format=file_type)
                 temp_thumb.seek(0)
 
-                # 썸네일 필드에 저장
                 self.thumbnail.save(
                     thumb_name, ContentFile(temp_thumb.read()), save=False
                 )
