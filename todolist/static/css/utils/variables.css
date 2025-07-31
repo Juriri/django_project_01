@@ -1,0 +1,29 @@
+:root {
+  /* ===== 폰트 ===== */
+  --font-main: 'Inter', sans-serif;
+  --font-cute: 'Quicksand', sans-serif;
+
+  /* ===== 텍스트 색상 ===== */
+  --color-text-main: #333;
+  --color-text-sub: #666;
+  --color-text-highlight: #f6ebee;
+
+  /* ===== 버튼 색상 ===== */
+  --color-button-bg: #9f053a;
+  --color-button-hover: #ec407a;
+
+  /* ===== 배경색 ===== */
+  --color-bg-body: #f6e8ec;
+  --color-bg-box: #fff8fb;
+  --color-bg-nav: #d10542;
+
+  /* ===== 테두리 색상 ===== */
+  --color-border: #f8bbd0;
+
+  /* ===== 공통 색상 ===== */
+  --main-color: #f48fb1;
+  --accent-color: #ec407a;
+
+  /* ===== 쉐도우 ===== */
+  --shadow-soft: 0 6px 16px rgba(0, 0, 0, 0.05);
+}

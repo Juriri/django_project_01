@@ -4,35 +4,52 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}ToDo App{% endblock %}</title>
+    <link rel="icon" type="image/png" href="{% static 'images/todo_logo.png' %}">
+
+    <!-- 공통 폰트 + 변수 -->
     <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/utils/variables.css' %}">
+
+    <!-- 공통 CSS -->
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components/button.css' %}">
+
+    {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1><a href="{% url 'cbv_todo_list' %}" style="text-decoration: none; color: var(--main-color);">ToDo App</a></h1>
+<div class="container">
+    <header>
+        <div class="header-top">
+            <h1 class="logo-title">
+                <a href="{% url 'cbv_todo_list' %}">
+                    <img src="{% static 'images/todo_logo.png' %}" alt="ToDo App 로고">
+                </a>
+            </h1>
+
             <div class="auth">
                 {% if user.is_authenticated %}
-                    안녕하세요, {{ user.username }}님!
-                    <form action="{% url 'logout' %}" method="POST" style="display: inline;">
+                    <span>안녕하세요, {{ user.username }}님!</span>
+                    <form method="post" action="{% url 'logout' %}">
                         {% csrf_token %}
-                        <button type="submit">로그아웃</button>
+                        <button type="submit" class="button-link small">로그아웃</button>
                     </form>
                 {% else %}
-                    <a href="{% url 'login' %}">로그인</a>
-                    <a href="{% url 'signup' %}">회원가입</a>
+                    <a href="{% url 'login' %}" class="button-link small">로그인</a>
+                    <a href="{% url 'signup' %}" class="button-link small">회원가입</a>
                 {% endif %}
             </div>
-            <nav>
-                <a href="{% url 'cbv_todo_list' %}">전체 목록</a>
-                {% if user.is_authenticated %}
-                    <a href="{% url 'cbv_todo_create' %}">➕ 할 일 추가</a>
-                {% endif %}
-            </nav>
-        </header>
+        </div>
 
-        {% block content %}
-        {% endblock %}
-    </div>
+        <nav>
+            <a href="{% url 'cbv_todo_list' %}">전체 목록</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'cbv_todo_create' %}">➕ 할 일 추가</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    {% block content %}
+    {% endblock %}
+</div>
 </body>
 </html>

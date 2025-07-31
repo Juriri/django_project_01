@@ -1,13 +1,21 @@
 {% extends './base.html' %}
-
+{% load static %}
 {% block title %}할 일 추가{% endblock %}
+{% block body_class %}page-todo-create{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/pages/todo_create.css' %}">
+{% endblock %}
 
 {% block content %}
-<h2>할 일 추가</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">저장</button>
-</form>
-<a href="{% url 'cbv_todo_list' %}">← 목록으로</a>
+    <div class="todo-create">
+        <h2>할 일 추가</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">저장</button>
+        </form>
+        <a href="{% url 'cbv_todo_list' %}">← 목록으로</a>
+    </div>
+
 {% endblock %}

@@ -55,7 +55,7 @@ class TodoDetailView(LoginRequiredMixin, DetailView):
         context["form"] = CommentForm()
 
         comments = Comment.objects.filter(todo=todo).order_by("-created_at")
-        paginator = Paginator(comments, 5)
+        paginator = Paginator(comments, 3)
         page_number = self.request.GET.get("page")
         page_obj = paginator.get_page(page_number)
 

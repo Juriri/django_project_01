@@ -1,0 +1,53 @@
+/* ========== 기본 버튼 스타일 ========== */
+.button-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 100px;
+  height: 40px;
+  padding: 0 16px;
+  box-sizing: border-box;
+
+  background-color: var(--main-color);
+  color: white;
+
+  font-family: var(--font-cute), sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-align: center;
+  text-decoration: none;
+
+  border: none;
+  box-shadow: var(--shadow-soft);
+  cursor: pointer;
+
+  line-height: 1;
+  appearance: none;
+  vertical-align: middle;
+
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.button-link:hover {
+  background-color: var(--accent-color);
+  box-shadow: var(--shadow-strong, 0 4px 12px rgba(0,0,0,0.1));
+}
+
+.button-link:focus,
+.button-link:active {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(236, 64, 122, 0.25); /* 포커스 링 */
+}
+
+/* ========== 작은 버튼 스타일 ========== */
+.button-link.small {
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  border-radius: 6px;
+
+  height: auto;
+  min-width: unset;
+
+  line-height: 1.2;
+}

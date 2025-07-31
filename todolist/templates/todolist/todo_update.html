@@ -1,12 +1,20 @@
 {% extends './base.html' %}
-
+{% load static %}
 {% block title %}할 일 수정{% endblock %}
 
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/pages/todo_update.css' %}">
+{% endblock %}
+
 {% block content %}
-<h2>할 일 수정</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">수정</button>
-</form>
+    <div class="todo-update">
+        <h2>할 일 수정</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">수정</button>
+        </form>
+        <a href="{% url 'cbv_todo_list' %}">← 목록으로</a>
+    </div>
+
 {% endblock %}

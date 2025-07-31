@@ -1,0 +1,45 @@
+/* 감싸는 라벨 */
+.pretty-checkbox {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 1rem;
+  font-family: var(--font-cute, 'Quicksand', sans-serif), serif;
+  color: #d81b60;
+  user-select: none;
+  gap: 0.5rem;
+}
+
+/* 실제 체크박스는 숨김 */
+.pretty-checkbox input[type="checkbox"] {
+  display: none;
+}
+
+/* 가짜 체크박스 스타일 */
+.pretty-checkbox .checkmark {
+  width: 20px;
+  height: 20px;
+  background-color: #ffe0eb;
+  border: 2px solid #f48fb1;
+  border-radius: 6px;
+  display: inline-block;
+  position: relative;
+  transition: all 0.2s ease-in-out;
+}
+
+/* 체크 상태일 때 스타일 */
+.pretty-checkbox input[type="checkbox"]:checked + .checkmark {
+  background-color: #f48fb1;
+  border-color: #ec407a;
+}
+
+/* 체크 표시 (✔️) */
+.pretty-checkbox input[type="checkbox"]:checked + .checkmark::after {
+  content: '✔';
+  color: white;
+  font-size: 14px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -55%);
+}

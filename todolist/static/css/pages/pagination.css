@@ -1,0 +1,36 @@
+.pagination {
+  text-align: center;
+  margin: 2rem 0;
+  font-family: var(--font-cute), sans-serif;
+}
+
+.pagination a,
+.pagination span.current {
+  display: inline-block;
+  padding: 8px 16px;
+  margin: 0 6px;
+  border-radius: 999px;
+  font-size: 14px;
+  text-decoration: none;
+  font-weight: 600;
+  border: 2px solid #f8bbd0;
+  color: #e91e63;
+  background-color: #fff9f9;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 2px 4px rgba(248, 187, 208, 0.2);
+}
+
+.pagination a:hover {
+  background-color: #fff3cd; /* 연노랑 hover */
+  color: #d81b60;
+  border-color: #f48fb1;
+}
+
+.pagination span.current {
+  background-color: #ec407a;
+  color: white;
+  font-weight: 700;
+  border-color: #ec407a;
+  cursor: default;
+  box-shadow: 0 3px 6px rgba(236, 64, 122, 0.3);
+}
