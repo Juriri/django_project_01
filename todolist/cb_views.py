@@ -110,7 +110,6 @@ class TodoDeleteView(LoginRequiredMixin, DeleteView):
 class CommentCreateView(LoginRequiredMixin, CreateView):
     model = Comment
     fields = ["message"]
-    template_name = "todolist/todo_create.html"
     pk_url_kwarg = "todo_id"
 
     def get_todo(self):
