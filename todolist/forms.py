@@ -1,9 +1,6 @@
 from django import forms
 from django_summernote.widgets import SummernoteWidget
-
 from todolist.models import Todo, Comment
-from .models import BlogPost
-
 
 class TodoForm(forms.ModelForm):
     class Meta:

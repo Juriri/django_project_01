@@ -38,7 +38,7 @@ DJANGO_APPS = [
     'django_summernote',
 ]
 
-MEDIA_URL = '/media/'
+MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 OWN_APPS = [
@@ -48,7 +48,9 @@ OWN_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
-
+    'django_extensions',
+    'django_summernote',
+    'django_cleanup',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + OWN_APPS + THIRD_PARTY_APPS

@@ -20,19 +20,26 @@
         <ul>
             {% for todo in page_obj %}
                 <li>
-                    <a href="{% url 'cbv_todo_info' todo.id %}">
-                        {{ todo.title }}
-                    </a>
+                    <div class="thumbnail-wrapper">
+                        {% if todo.thumbnail %}
+                            <img src="{{ todo.thumbnail.url }}" alt="{{ todo.title }} 썸네일" class="thumbnail">
+                        {% else %}
+                            <img src="{% static 'images/no_image.jpeg' %}" alt="기본 썸네일" class="thumbnail">
+                        {% endif %}
+                        <a href="{% url 'cbv_todo_info' todo.id %}">{{ todo.title }}</a>
+                    </div>
                     <div style="margin-top: 0.5rem;">
                         완료 여부: {{ todo.is_completed|yesno:"완료,미완료" }}<br>
                         📅 시작일: {{ todo.start_date|date:"Y-m-d" }}<br>
                         ⏰ 마감일: {{ todo.end_date|date:"Y-m-d" }}
                     </div>
                 </li>
+
             {% empty %}
                 <li>할 일이 없습니다.</li>
             {% endfor %}
         </ul>
+
     </div>
 
 

@@ -90,6 +90,24 @@
   color: #c2185b;
 }
 
+/* ===== 썸네일 이미지 ===== */
+.todo-list li img.thumbnail {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-right: 12px;
+  vertical-align: middle;
+  box-shadow: 0 2px 6px rgba(236, 64, 122, 0.15);
+}
+
+.todo-list li .thumbnail-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+
 .todo-list li div {
   margin-top: 0.6rem;
   font-size: 0.95rem;
