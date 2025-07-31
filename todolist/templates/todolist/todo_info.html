@@ -5,18 +5,42 @@
 <h2>{{ todo.title }}</h2>
 
 <ul style="padding-left: 0; list-style: none;">
-    <li><strong>내용:</strong> {{ todo.content }}</li>
+    <li><strong>내용:</strong> {{ todo.description }}</li>
     <li><strong>완료 여부:</strong> {{ todo.is_completed|yesno:"완료,미완료" }}</li>
     <li><strong>시작일:</strong> {{ todo.start_date }}</li>
     <li><strong>마감일:</strong> {{ todo.end_date }}</li>
 </ul>
 
 <div style="margin-top: 1rem;">
-    <a href="{% url 'cbv_todo_update' todo.id %}">수정</a>
+    <a href="{% url 'cbv_todo_update' todo.id %}" class="button-link">수정</a>
 
     <form action="{% url 'cbv_todo_delete' todo.id %}" method="post" style="display: inline;">
         {% csrf_token %}
-        <button type="submit" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</button>
+        <button type="submit" class="button-link" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</button>
     </form>
 </div>
+
+<hr style="margin: 2rem 0;">
+
+<h3>댓글</h3>
+<ul style="list-style: none; padding: 0;">
+    {% for comment in todo.comments.all %}
+        <li style="background: #fff8fb; border: 1px solid #eee; padding: 1rem; margin-bottom: 1rem; border-radius: 8px;">
+            <strong>{{ comment.user.username }}</strong> | {{ comment.created_at|date:"Y-m-d H:i" }}<br>
+            {{ comment.message }}
+        </li>
+    {% empty %}
+        <li>아직 댓글이 없습니다.</li>
+    {% endfor %}
+</ul>
+
+<h4>댓글 작성</h4>
+<form method="post" action="{% url 'cbv_comment_create' todo.id %}">
+    <label>
+        {% csrf_token %}
+        <textarea name="message" rows="3" placeholder="댓글을 입력하세요" required></textarea>
+    </label>
+    <br>
+    <button type="submit" class="button-link">댓글 등록</button>
+</form>
 {% endblock %}
