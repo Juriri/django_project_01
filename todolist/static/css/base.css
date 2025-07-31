@@ -7,7 +7,7 @@
 
 /* ===== 바디 & 전체 ===== */
 body {
-  background-color: #fffafc; /* 화이트톤 */
+  background-color: #fffafc;
   font-family: var(--font-main), serif;
   color: #444;
   line-height: 1.6;
@@ -94,7 +94,14 @@ nav {
   justify-content: center;
   margin-bottom: 2rem;
   flex-wrap: wrap;
+
+  background-color: #fff0f5;
+  background-image: radial-gradient(#f48fb1 1.2px, transparent 1.2px);
+  background-size: 16px 16px;
+  padding: 1rem;
+  border-radius: 16px;
 }
+
 
 nav a {
   color: #ec407a; /* 진핑크 */
