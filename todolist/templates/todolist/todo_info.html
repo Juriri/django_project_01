@@ -4,6 +4,7 @@
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/pages/todo_info.css' %}">
+    <link rel="stylesheet" href="{% static 'css/pages/pagination.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -25,7 +26,6 @@
             <li><strong>시작일:</strong> {{ todo.start_date }}</li>
             <li><strong>마감일:</strong> {{ todo.end_date }}</li>
         </ul>
-
 
         <div class="button-group">
             <a href="{% url 'cbv_todo_update' todo.id %}" class="button-link">수정</a>
