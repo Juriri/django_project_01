@@ -1,36 +1,44 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import Http404
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import (
+    ListView,
+    DetailView,
+    CreateView,
+    UpdateView,
+    DeleteView,
+)
 
-from .forms import TodoForm
-from .models import Todo
+from .forms import TodoForm, CommentForm
+from .models import Todo, Comment
 
 
 class TodoListView(LoginRequiredMixin, ListView):
     model = Todo
-    template_name = 'todolist/todo_list.html'
-    page_obj = 'page_obj'
+    template_name = "todolist/todo_list.html"
+    page_obj = "page_obj"
     paginate_by = 3
 
     def get_queryset(self):
-        q = self.request.GET.get('q', '')
+        q = self.request.GET.get("q", "")
         qs = Todo.objects.filter(user=self.request.user)
         if q:
             qs = qs.filter(Q(title__icontains=q) | Q(description__icontains=q))
-        return qs.order_by('-id')
+        return qs.order_by("-id")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['q'] = self.request.GET.get('q', '')
+        context["q"] = self.request.GET.get("q", "")
 
         return context
 
 
 class TodoDetailView(LoginRequiredMixin, DetailView):
     model = Todo
-    template_name = 'todolist/todo_info.html'
+    template_name = "todolist/todo_info.html"
+    context_object_name = "todo"
 
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
@@ -40,14 +48,26 @@ class TodoDetailView(LoginRequiredMixin, DetailView):
         return obj
 
     def get_context_data(self, **kwargs):
-        context = {'todo': self.object.__dict__}
+        context = super().get_context_data(**kwargs)
+        todo = self.object
+
+        context["todo_dict"] = todo.__dict__
+        context["form"] = CommentForm()
+
+        comments = Comment.objects.filter(todo=todo).order_by("-created_at")
+        paginator = Paginator(comments, 5)
+        page_number = self.request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+
+        context["page_obj"] = page_obj
+
         return context
 
 
 class TodoCreateView(LoginRequiredMixin, CreateView):
     model = Todo
     form_class = TodoForm
-    template_name = 'todolist/todo_create.html'
+    template_name = "todolist/todo_create.html"
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -59,8 +79,8 @@ class TodoCreateView(LoginRequiredMixin, CreateView):
 
 class TodoUpdateView(LoginRequiredMixin, UpdateView):
     model = Todo
-    fields = ['title', 'description', 'start_date', 'end_date', 'is_completed', 'id']
-    template_name = 'todolist/todo_update.html'
+    fields = ["title", "description", "start_date", "end_date", "is_completed", "id"]
+    template_name = "todolist/todo_update.html"
 
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
@@ -70,7 +90,8 @@ class TodoUpdateView(LoginRequiredMixin, UpdateView):
         return obj
 
     def get_success_url(self):
-        return reverse_lazy('cbv_todo_info', kwargs={'pk': self.object.id})
+        return reverse_lazy("cbv_todo_info", kwargs={"pk": self.object.id})
+
 
 class TodoDeleteView(LoginRequiredMixin, DeleteView):
     model = Todo
@@ -83,4 +104,57 @@ class TodoDeleteView(LoginRequiredMixin, DeleteView):
         return obj
 
     def get_success_url(self):
-        return reverse_lazy('cbv_todo_list')
+        return reverse_lazy("cbv_todo_list")
+
+
+class CommentCreateView(LoginRequiredMixin, CreateView):
+    model = Comment
+    fields = ["message"]
+    template_name = "todolist/todo_create.html"
+    pk_url_kwarg = "todo_id"
+
+    def get_todo(self):
+        try:
+            return Todo.objects.get(pk=self.kwargs[self.pk_url_kwarg])
+        except Todo.DoesNotExist:
+            raise Http404("해당 Todo가 존재하지 않습니다.")
+
+    def form_valid(self, form):
+        form.instance.todo = self.get_todo()
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy(
+            "cbv_todo_info", kwargs={"pk": self.kwargs[self.pk_url_kwarg]}
+        )
+
+
+class CommentUpdateView(LoginRequiredMixin, UpdateView):
+    model = Comment
+    fields = ['message']
+
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        if self.request.user != obj.user and not self.request.user.is_superuser:
+            raise Http404("수정 권한이 없습니다.")
+        return obj
+
+    def get_success_url(self):
+        return reverse_lazy(
+            "cbv_todo_info", kwargs={"pk": self.kwargs.get(self.pk_url_kwarg)}
+        )
+
+class CommentDeleteView(LoginRequiredMixin, DeleteView):
+    model = Comment
+
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        if self.request.user != obj.user and not self.request.user.is_superuser:
+            raise Http404("삭제 권한이 없습니다.")
+        return obj
+
+    def get_success_url(self):
+        return reverse_lazy(
+            "cbv_todo_info", kwargs={"pk": self.kwargs.get(self.pk_url_kwarg)}
+        )

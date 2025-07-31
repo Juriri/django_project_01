@@ -12,11 +12,37 @@
 </ul>
 
 <div style="margin-top: 1rem;">
-    <a href="{% url 'cbv_todo_update' todo.id %}">수정</a>
+    <a href="{% url 'cbv_todo_update' todo.id %}" class="button-link">수정</a>
 
     <form action="{% url 'cbv_todo_delete' todo.id %}" method="post" style="display: inline;">
         {% csrf_token %}
         <button type="submit" class="button-link" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</button>
     </form>
 </div>
+
+<hr style="margin: 2rem 0;">
+
+<!-- ✅ 댓글 목록 -->
+<h3>댓글</h3>
+<ul style="list-style: none; padding: 0;">
+    {% for comment in todo.comments.all %}
+        <li style="background: #fff8fb; border: 1px solid #eee; padding: 1rem; margin-bottom: 1rem; border-radius: 8px;">
+            <strong>{{ comment.user.username }}</strong> | {{ comment.created_at|date:"Y-m-d H:i" }}<br>
+            {{ comment.message }}
+        </li>
+    {% empty %}
+        <li>아직 댓글이 없습니다.</li>
+    {% endfor %}
+</ul>
+
+<!-- ✅ 댓글 작성 폼 -->
+<h4>댓글 작성</h4>
+<form method="post" action="{% url 'cbv_comment_create' todo.id %}">
+    <label>
+        {% csrf_token %}
+        <textarea name="content" rows="3" placeholder="댓글을 입력하세요" required></textarea>
+    </label>
+    <br>
+    <button type="submit" class="button-link">댓글 등록</button>
+</form>
 {% endblock %}
