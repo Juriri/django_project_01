@@ -22,7 +22,6 @@
 
 <hr style="margin: 2rem 0;">
 
-<!-- ✅ 댓글 목록 -->
 <h3>댓글</h3>
 <ul style="list-style: none; padding: 0;">
     {% for comment in todo.comments.all %}
@@ -35,7 +34,6 @@
     {% endfor %}
 </ul>
 
-<!-- ✅ 댓글 작성 폼 -->
 <h4>댓글 작성</h4>
 <form method="post" action="{% url 'cbv_comment_create' todo.id %}">
     <label>
