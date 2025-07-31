@@ -1,27 +1,30 @@
-from django.http import Http404
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
+from django.http import Http404
 from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+
+from .forms import TodoForm
 from .models import Todo
-from .forms import TodoForm, TodoUpdateForm
 
 
 class TodoListView(LoginRequiredMixin, ListView):
     model = Todo
     template_name = 'todolist/todo_list.html'
-    context_object_name = 'page_obj'
+    page_obj = 'page_obj'
     paginate_by = 3
 
     def get_queryset(self):
         q = self.request.GET.get('q', '')
         qs = Todo.objects.filter(user=self.request.user)
         if q:
-            qs = qs.filter(title__icontains=q)
+            qs = qs.filter(Q(title__icontains=q) | Q(description__icontains=q))
         return qs.order_by('-id')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['q'] = self.request.GET.get('q', '')
+
         return context
 
 
@@ -51,7 +54,7 @@ class TodoCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy('cbv_todo_info', kwargs={'todo_id': self.object.id})
+        return reverse_lazy("cbv_todo_info", kwargs={"pk": self.object.id})
 
 
 class TodoUpdateView(LoginRequiredMixin, UpdateView):

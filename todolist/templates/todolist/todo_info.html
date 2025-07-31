@@ -5,7 +5,7 @@
 <h2>{{ todo.title }}</h2>
 
 <ul style="padding-left: 0; list-style: none;">
-    <li><strong>내용:</strong> {{ todo.content }}</li>
+    <li><strong>내용:</strong> {{ todo.description }}</li>
     <li><strong>완료 여부:</strong> {{ todo.is_completed|yesno:"완료,미완료" }}</li>
     <li><strong>시작일:</strong> {{ todo.start_date }}</li>
     <li><strong>마감일:</strong> {{ todo.end_date }}</li>
@@ -16,7 +16,7 @@
 
     <form action="{% url 'cbv_todo_delete' todo.id %}" method="post" style="display: inline;">
         {% csrf_token %}
-        <button type="submit" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</button>
+        <button type="submit" class="button-link" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</button>
     </form>
 </div>
 {% endblock %}

@@ -2,48 +2,149 @@
 {% block title %}ToDo 목록{% endblock %}
 
 {% block content %}
-<h2>나의 ToDo 목록</h2>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fff0f5;
+            color: #444;
+            margin: 0;
+            padding: 0;
+        }
 
-<form method="get" style="margin-bottom: 1rem;">
-    <input type="text" name="q" value="{{ q }}" placeholder="검색어 입력" />
-    <button type="submit">검색</button>
-</form>
+        h2 {
+            text-align: center;
+            color: #ec407a;
+        }
 
-{% if page_obj.has_other_pages %}
-<div class="pagination">
-    {% if page_obj.has_previous %}
-        <a href="?page={{ page_obj.previous_page_number }}{% if q %}&q={{ q }}{% endif %}">이전</a>
+        form {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            width: 250px;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+            background-color: #fff8fb;
+            font-size: 15px;
+        }
+
+        button {
+            background-color: #f48fb1;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 15px;
+            margin-left: 10px;
+        }
+
+        button:hover {
+            background-color: #ec407a;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background: #f9f9f9;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        li a {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #3f51b5;
+            text-decoration: none;
+        }
+
+        li a:hover {
+            text-decoration: underline;
+        }
+
+        .pagination {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .pagination a,
+        .pagination span.current {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            margin: 0 0.2rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            border: 1px solid #ccc;
+            color: #3f51b5;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .pagination a:hover {
+            background-color: #e3e8ff;
+            border-color: #3f51b5;
+        }
+
+        .pagination span.current {
+            background-color: #3f51b5;
+            color: white;
+            font-weight: 700;
+            border-color: #3f51b5;
+            cursor: default;
+        }
+    </style>
+
+    <h2>나의 ToDo 목록</h2>
+
+    <form method="get">
+        <label>
+            <input type="text" name="q" value="{{ q }}" placeholder="검색어 입력"/>
+        </label>
+        <button type="submit">검색</button>
+    </form>
+
+    {% if page_obj.has_other_pages %}
+        <div class="pagination">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}{% if q %}&q={{ q }}{% endif %}">이전</a>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                    <span class="current">{{ num }}</span>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <a href="?page={{ num }}{% if q %}&q={{ q }}{% endif %}">{{ num }}</a>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}{% if q %}&q={{ q }}{% endif %}">다음</a>
+            {% endif %}
+        </div>
     {% endif %}
 
-    {% for num in page_obj.paginator.page_range %}
-        {% if page_obj.number == num %}
-            <span class="current">{{ num }}</span>
-        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-            <a href="?page={{ num }}{% if q %}&q={{ q }}{% endif %}">{{ num }}</a>
-        {% endif %}
-    {% endfor %}
-
-    {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}{% if q %}&q={{ q }}{% endif %}">다음</a>
-    {% endif %}
-</div>
-{% endif %}
-
-<ul style="list-style: none; padding: 0;">
-    {% for todo in page_obj %}
-        <li style="background: #f9f9f9; padding: 1rem; margin-bottom: 1rem; border-radius: 6px;">
-            <a href="{% url 'cbv_todo_info' todo.id %}" style="font-size: 1.2rem; font-weight: bold; color: #3f51b5; text-decoration: none;">
-                {{ todo.title }}
-            </a>
-            <div style="margin-top: 0.5rem;">
-                완료 여부: {{ todo.is_completed|yesno:"완료,미완료" }}<br>
-                📅 시작일: {{ todo.start_date|date:"Y-m-d" }}<br>
-                ⏰ 마감일: {{ todo.end_date|date:"Y-m-d" }}
-            </div>
-        </li>
-    {% empty %}
-        <li>할 일이 없습니다.</li>
-    {% endfor %}
-</ul>
-
+    <ul>
+        {% for todo in page_obj %}
+            <li>
+                <a href="{% url 'cbv_todo_info' todo.id %}">
+                    {{ todo.title }}
+                </a>
+                <div style="margin-top: 0.5rem;">
+                    완료 여부: {{ todo.is_completed|yesno:"완료,미완료" }}<br>
+                    📅 시작일: {{ todo.start_date|date:"Y-m-d" }}<br>
+                    ⏰ 마감일: {{ todo.end_date|date:"Y-m-d" }}
+                </div>
+            </li>
+        {% empty %}
+            <li>할 일이 없습니다.</li>
+        {% endfor %}
+    </ul>
 {% endblock %}
