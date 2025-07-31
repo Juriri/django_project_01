@@ -1,46 +1,74 @@
 {% extends "./base.html" %}
+{% load static %}
 {% block title %}할 일 상세{% endblock %}
 
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/pages/todo_info.css' %}">
+{% endblock %}
+
 {% block content %}
-<h2>{{ todo.title }}</h2>
+    <div class="todo-detail">
+        <h2>{{ todo.title }}</h2>
+        <ul class="todo-info">
+            <li class="thumbnail-item">
+                <strong>썸네일:</strong><br>
+                {% if todo.is_completed and todo.completed_image %}
+                    <img src="{{ todo.completed_image.url }}" alt="완료 이미지" class="thumbnail-img">
+                {% elif todo.thumbnail and todo.thumbnail.url != "/media/todo/no_image/no_image.jpeg" %}
+                    <img src="{{ todo.thumbnail.url }}" alt="썸네일 이미지" class="thumbnail-img">
+                {% else %}
+                    <img src="{% static 'images/no_image.jpeg' %}" alt="기본 썸네일" class="thumbnail-img">
+                {% endif %}
+            </li>
+            <li><strong>내용:</strong><br> {{ todo.description|safe }}</li>
+            <li><strong>완료 여부:</strong> {{ todo.is_completed|yesno:"완료,미완료" }}</li>
+            <li><strong>시작일:</strong> {{ todo.start_date }}</li>
+            <li><strong>마감일:</strong> {{ todo.end_date }}</li>
+        </ul>
 
-<ul style="padding-left: 0; list-style: none;">
-    <li><strong>내용:</strong> {{ todo.description }}</li>
-    <li><strong>완료 여부:</strong> {{ todo.is_completed|yesno:"완료,미완료" }}</li>
-    <li><strong>시작일:</strong> {{ todo.start_date }}</li>
-    <li><strong>마감일:</strong> {{ todo.end_date }}</li>
-</ul>
 
-<div style="margin-top: 1rem;">
-    <a href="{% url 'cbv_todo_update' todo.id %}" class="button-link">수정</a>
+        <div class="button-group">
+            <a href="{% url 'cbv_todo_update' todo.id %}" class="button-link">수정</a>
+            <form method="post" action="{% url 'cbv_todo_delete' todo.id %}">
+                {% csrf_token %}
+                <button type="submit" class="button-link">삭제</button>
+            </form>
+        </div>
 
-    <form action="{% url 'cbv_todo_delete' todo.id %}" method="post" style="display: inline;">
-        {% csrf_token %}
-        <button type="submit" class="button-link" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</button>
-    </form>
-</div>
+        <hr>
 
-<hr style="margin: 2rem 0;">
+        <h3>댓글</h3>
+        <ul class="comment-box">
+            {% for comment in page_obj %}
+                <li>
+                    <strong>{{ comment.user.username }}</strong>
+                    | {{ comment.created_at|date:"Y-m-d H:i" }}<br>
+                    {{ comment.message }}
+                </li>
+            {% empty %}
+                <li>아직 댓글이 없습니다.</li>
+            {% endfor %}
+        </ul>
 
-<h3>댓글</h3>
-<ul style="list-style: none; padding: 0;">
-    {% for comment in todo.comments.all %}
-        <li style="background: #fff8fb; border: 1px solid #eee; padding: 1rem; margin-bottom: 1rem; border-radius: 8px;">
-            <strong>{{ comment.user.username }}</strong> | {{ comment.created_at|date:"Y-m-d H:i" }}<br>
-            {{ comment.message }}
-        </li>
-    {% empty %}
-        <li>아직 댓글이 없습니다.</li>
-    {% endfor %}
-</ul>
+        <!-- 댓글 페이지네이션  -->
+        <div class="pagination">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}">&laquo; 이전</a>
+            {% endif %}
 
-<h4>댓글 작성</h4>
-<form method="post" action="{% url 'cbv_comment_create' todo.id %}">
-    <label>
-        {% csrf_token %}
-        <textarea name="message" rows="3" placeholder="댓글을 입력하세요" required></textarea>
-    </label>
-    <br>
-    <button type="submit" class="button-link">댓글 등록</button>
-</form>
+            <span class="current">페이지 {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">다음 &raquo;</a>
+            {% endif %}
+        </div>
+
+
+        <h4>댓글 작성</h4>
+        <form method="post" action="{% url 'cbv_comment_create' todo.id %}">
+            {% csrf_token %}
+            <textarea name="message" rows="3" required placeholder="댓글을 입력하세요"></textarea><br>
+            <button type="submit" class="button-link">댓글 등록</button>
+        </form>
+    </div>
 {% endblock %}

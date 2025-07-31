@@ -1,0 +1,153 @@
+/* ===== 초기화 ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ===== 타이틀 ===== */
+.todo-list h2 {
+  text-align: center;
+  color: #e91e63; /* 진한 핑크 */
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  font-family: var(--font-cute), sans-serif;
+}
+
+/* ===== 검색 폼 ===== */
+.todo-list form {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.todo-list input[type="text"] {
+  padding: 10px;
+  width: 250px;
+  border-radius: 16px;
+  border: 2px solid #ffe4ec;
+  background-color: #fffefc;
+  font-size: 15px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  font-family: var(--font-cute), sans-serif;
+}
+
+.todo-list input[type="text"]:focus {
+  outline: none;
+  border-color: #f48fb1;
+  box-shadow: 0 0 6px 2px rgba(248, 187, 208, 0.4);
+}
+
+.todo-list button[type="submit"] {
+  background-color: #ffe082; /* 연노랑 */
+  color: #d81b60;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 15px;
+  margin-left: 10px;
+  transition: background-color 0.2s ease;
+  font-family: var(--font-cute), sans-serif;
+}
+
+.todo-list button[type="submit"]:hover {
+  background-color: #f8bbd0;
+  color: white;
+}
+
+/* ===== 할 일 목록 ===== */
+.todo-list ul {
+  list-style: none;
+  padding: 0;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.todo-list li {
+  background: #fff3f7;
+  padding: 1.2rem;
+  margin-bottom: 1.2rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s ease;
+}
+
+.todo-list li:hover {
+  transform: translateY(-3px);
+}
+
+.todo-list li a {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #e91e63;
+  text-decoration: none;
+  font-family: var(--font-cute), cursive;
+}
+
+.todo-list li a:hover {
+  text-decoration: underline;
+  color: #c2185b;
+}
+
+/* ===== 썸네일 이미지 ===== */
+.todo-list li img.thumbnail {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-right: 12px;
+  vertical-align: middle;
+  box-shadow: 0 2px 6px rgba(236, 64, 122, 0.15);
+}
+
+.todo-list li .thumbnail-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+
+.todo-list li div {
+  margin-top: 0.6rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #666;
+  font-family: var(--font-main), sans-serif;
+}
+
+/* ===== 페이지네이션 ===== */
+.pagination {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.pagination a,
+.pagination span.current {
+  display: inline-block;
+  padding: 8px 16px;
+  margin: 0 6px;
+  border-radius: 20px;
+  font-size: 14px;
+  text-decoration: none;
+  font-weight: 500;
+  border: 2px solid #f8bbd0;
+  color: #e91e63;
+  background-color: #fff9f9;
+  transition: all 0.2s ease-in-out;
+  font-family: var(--font-cute), sans-serif;
+}
+
+.pagination a:hover {
+  background-color: #f8bbd0;
+  color: white;
+  border-color: #e91e63;
+}
+
+.pagination span.current {
+  background-color: #e91e63;
+  color: white;
+  font-weight: 700;
+  border-color: #e91e63;
+  cursor: default;
+}

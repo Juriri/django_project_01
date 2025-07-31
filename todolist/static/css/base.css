@@ -1,0 +1,120 @@
+/* ===== 초기화 ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ===== 바디 & 전체 ===== */
+body {
+  background-color: #fffafc;
+  font-family: var(--font-main), serif;
+  color: #444;
+  line-height: 1.6;
+}
+
+.container {
+  width: 90%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+
+/* ===== 헤더 전체 ===== */
+header {
+  margin-bottom: 2rem;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+/* ===== 로고 ===== */
+.logo-title img {
+  height: 140px;
+  object-fit: contain;
+  display: block;
+}
+
+.logo-title a:hover {
+  opacity: 0.8;
+}
+
+
+/* ===== 인증 영역 ===== */
+.auth {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.95rem;
+  font-family: var(--font-cute), sans-serif;
+}
+
+.auth span {
+  color: #ec407a;
+  font-weight: bold;
+}
+
+
+/* ===== 버튼 공통 스타일 ===== */
+.button-link {
+  display: inline-block;
+  background-color: #f8bbd0; /* 연핑크 */
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 6px 12px;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-family: var(--font-cute), sans-serif;
+}
+
+.button-link:hover {
+  background-color: #ec407a; /* 진핑크 */
+}
+
+.button-link.small {
+  padding: 4px 10px;
+  font-size: 0.75rem;
+}
+
+
+/* ===== 네비게이션 ===== */
+nav {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+
+  background-color: #fff0f5;
+  background-image: radial-gradient(#f48fb1 1.2px, transparent 1.2px);
+  background-size: 16px 16px;
+  padding: 1rem;
+  border-radius: 16px;
+}
+
+
+nav a {
+  color: #ec407a; /* 진핑크 */
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 16px;
+  background-color: #fff59d; /* 부드러운 노랑 */
+  transition: background-color 0.2s ease, color 0.2s ease;
+  font-weight: bold;
+  font-family: var(--font-cute), sans-serif;
+}
+
+nav a:hover {
+  background-color: #f8bbd0; /* 연핑크 */
+  color: white;
+}

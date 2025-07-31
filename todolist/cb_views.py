@@ -11,7 +11,7 @@ from django.views.generic import (
     DeleteView,
 )
 
-from .forms import TodoForm, CommentForm
+from .forms import TodoForm, CommentForm, TodoUpdateForm
 from .models import Todo, Comment
 
 
@@ -55,7 +55,7 @@ class TodoDetailView(LoginRequiredMixin, DetailView):
         context["form"] = CommentForm()
 
         comments = Comment.objects.filter(todo=todo).order_by("-created_at")
-        paginator = Paginator(comments, 5)
+        paginator = Paginator(comments, 3)
         page_number = self.request.GET.get("page")
         page_obj = paginator.get_page(page_number)
 
@@ -79,7 +79,7 @@ class TodoCreateView(LoginRequiredMixin, CreateView):
 
 class TodoUpdateView(LoginRequiredMixin, UpdateView):
     model = Todo
-    fields = ["title", "description", "start_date", "end_date", "is_completed", "id"]
+    form_class = TodoUpdateForm
     template_name = "todolist/todo_update.html"
 
     def get_object(self, queryset=None):

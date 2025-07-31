@@ -27,7 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 DJANGO_APPS = [
     'django.contrib.admin',
@@ -38,6 +37,9 @@ DJANGO_APPS = [
     'django.contrib.staticfiles',
 ]
 
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 OWN_APPS = [
     'bookmark',
     'todolist',
@@ -45,12 +47,13 @@ OWN_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
-
+    'django_summernote',
+    'django_cleanup',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + OWN_APPS + THIRD_PARTY_APPS
 
-LOGIN_REDIRECT_URL = '/todo/'
+LOGIN_REDIRECT_URL = '/cbv/'
 LOGOUT_REDIRECT_URL = '/accounts/login/'
 
 MIDDLEWARE = [
@@ -119,12 +122,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_TZ = True
-
+USE_TZ = False
+TIME_ZONE = 'Asia/Seoul'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/

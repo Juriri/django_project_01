@@ -1,0 +1,114 @@
+/* ===== 초기화 ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ===== 페이지 배경 & 폰트 ===== */
+body.page-todo-create {
+  background-color: #fff0f5;
+  font-family: 'Comic Neue', 'Inter', sans-serif;
+  color: #444;
+  padding: 2rem 1rem;
+}
+
+/* ===== 전체 컨테이너 ===== */
+.todo-create {
+  max-width: 600px;
+  margin: 0 auto;
+  background: #fff8fb;
+  padding: 2.5rem 2rem;
+  border-radius: 20px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+}
+
+/* ===== 제목 ===== */
+.todo-create h2 {
+  text-align: center;
+  color: #ec407a;
+  font-size: 2.2rem;
+  margin-bottom: 2rem;
+  font-family: 'Comic Neue', cursive;
+}
+
+/* ===== form 스타일링 ===== */
+.todo-create form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ===== form 각 필드 라인 (as_p 대응) ===== */
+.todo-create form p {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 0;
+}
+
+.todo-create form p label {
+  font-size: 14px;
+  color: #d81b60;
+  font-weight: 500;
+}
+
+/* ===== input, textarea, select 공통 ===== */
+.todo-create form input,
+.todo-create form textarea,
+.todo-create form select {
+  padding: 10px 12px;
+  border: 1px solid #f8bbd0;
+  border-radius: 14px;
+  background-color: #fff;
+  font-size: 15px;
+  transition: border-color 0.2s ease;
+}
+
+.todo-create form input:focus,
+.todo-create form textarea:focus,
+.todo-create form select:focus {
+  outline: none;
+  border-color: #ec407a;
+  box-shadow: 0 0 0 3px rgba(236, 64, 122, 0.15);
+}
+
+/* ===== checkbox 정렬용 (완료 여부 등) ===== */
+.todo-create input[type="checkbox"] {
+  width: auto;
+  margin-right: 8px;
+  transform: scale(1.2);
+}
+
+/* ===== 저장 버튼 ===== */
+.todo-create button[type="submit"] {
+  background-color: #f48fb1;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 16px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  font-family: 'Comic Neue', sans-serif;
+  transition: background-color 0.3s ease;
+}
+
+.todo-create button[type="submit"]:hover {
+  background-color: #ec407a;
+}
+
+/* ===== 목록으로 돌아가기 링크 ===== */
+.todo-create a {
+  display: block;
+  margin-top: 2rem;
+  text-align: center;
+  color: #ec407a;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.todo-create a:hover {
+  text-decoration: underline;
+}
