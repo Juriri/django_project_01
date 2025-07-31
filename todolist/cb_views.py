@@ -11,7 +11,7 @@ from django.views.generic import (
     DeleteView,
 )
 
-from .forms import TodoForm, CommentForm
+from .forms import TodoForm, CommentForm, TodoUpdateForm
 from .models import Todo, Comment
 
 
@@ -79,7 +79,7 @@ class TodoCreateView(LoginRequiredMixin, CreateView):
 
 class TodoUpdateView(LoginRequiredMixin, UpdateView):
     model = Todo
-    fields = ["title", "description", "start_date", "end_date", "is_completed", "id"]
+    form_class = TodoUpdateForm
     template_name = "todolist/todo_update.html"
 
     def get_object(self, queryset=None):
