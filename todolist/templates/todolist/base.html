@@ -29,13 +29,13 @@
             <div class="auth">
                 {% if user.is_authenticated %}
                     <span>안녕하세요, {{ user.username }}님!</span>
-                    <form method="post" action="{% url 'logout' %}">
+                    <form method="post" action="{% url 'cbv_logout' %}">
                         {% csrf_token %}
                         <button type="submit" class="button-link small">로그아웃</button>
                     </form>
                 {% else %}
-                    <a href="{% url 'login' %}" class="button-link small">로그인</a>
-                    <a href="{% url 'signup' %}" class="button-link small">회원가입</a>
+                    <a href="{% url 'cbv_login' %}" class="button-link small">로그인</a>
+                    <a href="{% url 'cbv_signup' %}" class="button-link small">회원가입</a>
                 {% endif %}
             </div>
         </div>
