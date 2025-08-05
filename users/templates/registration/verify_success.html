@@ -1,0 +1,15 @@
+{% extends "registration/base.html" %}
+{% block title %}인증 성공{% endblock %}
+
+{% block content %}
+<div class="alert alert-success mt-3">
+    <h4>이메일 인증에 성공하였습니다!</h4>
+    <p>이제 로그인이 가능합니다. 로그인 페이지로 이동합니다...</p>
+</div>
+
+<script>
+    setTimeout(function() {
+        window.location.href = "{% url 'users:login' %}";
+    }, 3000);  // 3초 후 이동
+</script>
+{% endblock %}
