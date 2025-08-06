@@ -1,4 +1,5 @@
 # 🧾 Django Todo & Bookmark Project
+<img width="2114" height="1292" alt="image" src="https://github.com/user-attachments/assets/ceada1e8-45ff-451d-96e9-eeed5bd5aae6" />
 
 이 프로젝트는 Django 프레임워크를 활용하여 만든 **Todo 관리 앱**과 **Bookmark 저장 기능**이 포함된 웹 애플리케이션입니다.  
 현재 **Python3.12, Django 5.2** 기반에서 동작하도록 설계되어 있습니다.
